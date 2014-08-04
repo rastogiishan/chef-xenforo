@@ -2,7 +2,6 @@
 *.swp
 Berksfile.lock
 .vagrant
-test/integration/data_bags/xenforo/apache.json
 test/integration/data_bags/xenforo/cdn.json
 test/integration/data_bags/xenforo/ssh.json
 \#*
