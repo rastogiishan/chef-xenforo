@@ -1,0 +1,40 @@
+#!/bin/bash
+# Chef generated
+# Do not edit!
+
+single_status() {
+  cd $1
+  echo "<h3>URL</h3>"
+  git remote show origin | egrep "^  Fetch URL: " | sed s/"^  Fetch URL: "//g 
+  echo "<h3>Branch</h3>"
+  git status | sed s/"^# On branch "//g | head -n 1
+  echo "<h3>Last commit</h3>"
+  echo "<pre>"
+  git log -n 1
+  echo "</pre>"
+  echo "<hr>"
+}
+
+echo "<!DOCTYPE HTML>"
+echo "<html><head><title>Board Deployment Status</title></head>"
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />"
+echo "<style type=\"text/css\">"
+echo "body { background:gray;text-align:left; }"
+echo "</style>"
+echo "<body>"
+echo "<h1>Board Deployment Status Page</h1>"
+echo "<hr>"
+echo "<h2>Status</h2>"
+if [ -e <%= @pending_file %> ]; then
+  echo "<p style=\"color:red\">The following repositories are pending</p>"
+else
+  echo "The following repositories are deployed"
+fi
+echo "<hr>"
+echo "<h2>Repositories</h2>"
+<% @repos.each do |repo_path| %>
+single_status <%= repo_path %>
+<% end %>
+echo "<p style=\"text-align:right;color:white;font-size:75%;\">Page created at "`date`"</p>"
+echo "</body>"
+echo "</html>"

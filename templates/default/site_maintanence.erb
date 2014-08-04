@@ -1,0 +1,24 @@
+NameVirtualHost 0.0.0.0:<% if node['xenforo']['enable_ssl'] %>443<% else %>80<% end %>
+<VirtualHost 0.0.0.0:<% if node['xenforo']['enable_ssl'] %>443<% else %>80<% end %>>
+     ServerName <%= node['xenforo']['server_name'] %>
+     ServerAlias <%= node['xenforo']['server_aliases'] %>
+     DocumentRoot <%= node['xenforo']['htdocs_maintenance'] %>
+     PHPINIDir <%= @phpinidir %>
+     <% if node['xenforo']['enable_ssl'] %>
+     SSLEngine On			 
+     SSLCertificateFile <%= node['xenforo']['ssl_public'] %>
+     SSLCertificateKeyFile <%= node['xenforo']['ssl_private'] %>
+     SSLCACertificateFile <%= node['xenforo']['ca_cert'] %>
+     SSLHonorCipherOrder On
+     SSLProtocol <%= node['xenforo']['sslprotocol'] %>
+     SSLCipherSuite <%= node['xenforo']['sslciphersuite'] %>
+     SSLCompression off
+     ServerSignature off
+     <% end %>
+     <Directory <%= node['xenforo']['htdocs_maintenance'] %>>
+       AllowOverride All
+       Options -Indexes -FollowSymLinks
+     </Directory>
+     CustomLog <%= node['xenforo']['customlog'] %>
+     ErrorLog <%= node['xenforo']['errorlog'] %>
+</VirtualHost>

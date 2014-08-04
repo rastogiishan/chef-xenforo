@@ -1,0 +1,9 @@
+{
+  "id": "db",
+  "vagrant": {
+    "encrypted_data": "5xx4U+sf5rPCC+DHdFROfrOFkpweSqrseH4OmbUnPH+4xtN39XJXBWI1Bsu/\nnkOQiKl3dZlSziytED/PSsXjLQSEJ6fEs4wH9yq5u/VHCbiueN3TMKFKkJAK\ndDIjsUqB\n",
+    "iv": "JgDkOewGzjoTFpWNm54kvA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

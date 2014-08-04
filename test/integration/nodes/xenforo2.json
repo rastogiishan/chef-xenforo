@@ -1,0 +1,25 @@
+{
+    "id": "xenforo2",
+    "name": "xenforo2",
+    "chef_environment": "_default",
+    "json_class": "Chef::Node",
+    "automatic": {
+	"hostname": "vagrant-02",
+	"os": "wheezy",
+	"ipaddress": "192.168.234.11"
+    },
+    "normal": {
+	"tags": [ "id-vagrant" ]
+    },
+    "chef_type": "node",
+    "default": {
+	"roles": [
+	    "xenforo"
+	]
+    },
+    "override": {
+    },
+    "run_list": [
+	"role[xenforo]"
+    ]
+}

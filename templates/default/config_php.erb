@@ -1,0 +1,64 @@
+<?php
+
+$config['db']['host'] = '<%= @dbhost %>';
+$config['db']['port'] = '<%= @dbport %>';
+$config['db']['username'] = '<%= @dbuser %>';
+$config['db']['password'] = '<%= @dbpass %>';
+$config['db']['dbname'] = '<%= @dbname %>';
+
+<% unless @memip.nil? or @memport.nil? %>
+$config['cache']['enabled']         = true;
+$config['cache']['cacheSessions']   = true;
+$config['cache']['frontend']        = 'Core';
+$config['cache']['frontendOptions'] = array(
+    'caching'                 => true,
+    'cache_id_prefix'         => 'xf_',
+    //'automatic_serialization' => true,
+    'lifetime'                => 0
+);
+$config['cache']['backend']         = 'Libmemcached';
+$config['cache']['backendOptions']  = array(
+    'compression' => false,
+    'servers'     => array(
+        array(
+            'host' => '<%= @memip %>',
+            'port' => <%= @memport %>
+        )
+    )
+);
+<% end %>
+
+$config['enableMail'] = <%= @enable_mail %>; 
+$config['superAdmins'] = '<%= @super_admins %>';
+
+$config['cookie'] = array(
+	'prefix' => 'xf_<%= @short_name %>_',
+	'path' => '/',
+	'domain' => '.bigpoint.com'
+);
+
+$config['acpSuffix'] = '<%= @short_name %>';
+
+<% unless @externalDataUrl.nil? %>
+$config['externalDataUrl'] = '<%= @externalDataUrl %>' 
+. $config['acpSuffix'];
+
+$config['cdn'] = array(
+'host' => '<%= @cdn_host %>',
+'port' => <%= @cdn_port %>,
+'user' => '<%= @cdn_user %>',
+'password' => '<%= @cdn_password %>'
+);
+<% end %>
+
+<% unless @javaScriptUrl.nil? %>
+$config['javaScriptUrl'] = '<%= @javaScriptUrl %>';
+<% end %>
+
+<% unless @externalDataPath.nil? %>
+$config['externalDataPath'] = '<%= @externalDataPath %>';
+<% end %>
+
+<% if @debug %>
+$config['debug'] = true;
+<% end %>

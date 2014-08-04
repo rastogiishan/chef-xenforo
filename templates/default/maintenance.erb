@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <style type="text/css">
+        body, div, footer, h1{
+            margin              : 0;
+            padding             : 0;
+        }
+        div, footer{
+            width               : 990px;
+            margin              : 0 auto;
+            text-align          : center;
+            font-family         : Tahoma;
+            font-size           : 12px;
+        }
+        div{
+            padding-top         : 530px;
+            background          : url(<%= @maintenance_image %>) 0 40px no-repeat;
+        }
+        div h1{
+            border-bottom       : 1px solid #999;
+            padding-bottom      : 40px;
+            margin-bottom       : 30px;
+            color               : #666;
+            font-size           : 28px;
+        }
+        div h1 img{
+            height              : 19px;
+            width               : 19px;
+            padding-bottom      : 30px;
+        }
+    </style>
+    <title>Bigpoint maintenance</title>
+</head>
+<body>
+    <div id="content">
+        <h1>
+            <img alt="" src="<%= @icon_image %>">
+            Sorry: We're currently updating our website.
+        </h1>
+    </div>
+    <footer>&copy; <?php echo date('Y'); ?> Bigpoint</footer>
+</body>
+</html>

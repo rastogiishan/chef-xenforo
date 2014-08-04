@@ -1,0 +1,28 @@
+{
+    "id": "xenforomem",
+    "name": "xenforomem",
+    "chef_environment": "_default",
+    "json_class": "Chef::Node",
+    "automatic": {
+	"hostname": "vagrant-mem",
+	"os": "wheezy",
+	"ipaddress": "192.168.234.13"
+    },
+    "normal": {
+	"tags": [ "id-vagrant" ],
+	"memcached": {
+	    "port": "11211"
+	}
+    },
+    "chef_type": "node",
+    "default": {
+	"roles": [
+	    "xenforomem"
+	]
+    },
+    "override": {
+    },
+    "run_list": [
+	"role[xenforomem]"
+    ]
+}

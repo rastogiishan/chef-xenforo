@@ -1,0 +1,16 @@
+#!/bin/bash
+# Chef controlled file. Don't change it!
+
+if [ "$1" == "enable" ]; then
+   mv /usr/bin/chef-client /usr/bin/chef-client.disabled
+   rm /etc/apache2/sites-enabled/xenforo-<%= node['xenforo']['name'] %>
+   ln -s /etc/apache2/sites-available/maintenance /etc/apache2/sites-enabled/
+   killall -HUP apache2
+elif [ "$1" == "disable" ]; then
+   rm /etc/apache2/sites-enabled/maintenance
+   ln -s /etc/apache2/sites-available/xenforo-<%= node['xenforo']['name'] %> /etc/apache2/sites-enabled/
+   killall -HUP apache2
+   mv /usr/bin/chef-client.disabled /usr/bin/chef-client
+else
+    echo "Usage maintenance.sh [enable|disable]"
+fi

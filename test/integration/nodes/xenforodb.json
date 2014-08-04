@@ -1,0 +1,29 @@
+{
+    "id": "xenforodb",
+    "name": "xenforodb",
+    "chef_environment": "_default",
+    "json_class": "Chef::Node",
+    "automatic": {
+	"hostname": "vagrant-db",
+	"os": "wheezy",
+	"ipaddress": "192.168.234.12"
+    },
+    "normal": {
+	"tags": [ "id-vagrant" ],
+        "mysql": {
+	    "port": "3306",
+	    "bind_address": "192.168.234.12"
+        }
+    },
+    "chef_type": "node",
+    "default": {
+	"roles": [
+	    "xenforodb"
+	]
+    },
+    "override": {
+    },
+    "run_list": [
+	"role[xenforodb]"
+    ]
+}

@@ -1,0 +1,71 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+- name: wheezy-64
+  driver_config:
+    box: wheezy64
+    box_url: http://debbuild.bigpoint.net/wheezy64.box
+
+suites:
+  - name: xenforodb
+    run_list:
+      - recipe[up2date]
+      - role[xenforodb]
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.234.12"}]
+      customize:
+        memory: 1024
+    attributes:
+      mysql:
+        bind_address: "192.168.234.12"
+      bp-percona:
+        bind-address: "192.168.234.12"
+      tags: 
+      - "id-vagrant"
+  - name: xenforomem
+    run_list:
+      - recipe[up2date]
+      - role[xenforomem]
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.234.13"}]
+    attributes:
+      tags: 
+      - "id-vagrant"
+  - name: xenforo1
+    run_list:
+      - recipe[up2date]
+      - role[xenforo]
+    driver_config:
+      network:
+      - ["forwarded_port", {guest: 80, host: 8081}]
+      - ["private_network", {ip: "192.168.234.10"}]
+    attributes:
+      xenforo:
+        install_allow_from: ""
+        customlog: "/var/log/apache2/xenforo-access.log"
+        errorlog: "/var/log/apache2/xenforo-error.log"
+      tags: 
+      - "id-vagrant"
+  - name: xenforo2
+    run_list:
+      - recipe[up2date]
+      - role[xenforo]
+    driver_config:
+      network:
+      - ["forwarded_port", {guest: 80, host: 8082}]
+      - ["private_network", {ip: "192.168.234.11"}]
+    attributes:
+      xenforo:
+        install_allow_from: ""
+        customlog: "/var/log/apache2/xenforo-access.log"
+        errorlog: "/var/log/apache2/xenforo-error.log"
+      tags: 
+      - "id-vagrant"
+

@@ -1,0 +1,9 @@
+{
+  "id": "mysql",
+  "vagrant": {
+    "encrypted_data": "0NBwDDrLvPEJbNtiknVfSj8rCGizpLHjDcnJ40/7C7Jtek0rHO89l+0HrUbF\n+lBL32H7BSZY9iRsZNR0ndBbz7iS+ngL1yRybPL0/ammcBSZv2zvw8upN8du\nS+eqoNCf\n",
+    "iv": "28stujGu/Aty0k8NJj6pmw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

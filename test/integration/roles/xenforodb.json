@@ -1,0 +1,20 @@
+{
+    "name": "xenforodb",
+    "description": "Forum server DB",
+    "json_class": "Chef::Role",
+    "default_attributes": {
+    },
+    "override_attributes": {
+	"percona": {
+	    "server": {
+		"role": "master"
+	    }
+	}
+    },
+    "chef_type": "role",
+    "run_list": [
+        "recipe[xenforo::db]"
+    ],
+    "env_run_lists": {
+    }
+}
