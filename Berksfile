@@ -1,4 +1,4 @@
-site :opscode
+https://api.berkshelf.com
 
 metadata
 
