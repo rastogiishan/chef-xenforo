@@ -6,7 +6,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-- name: debian-74
+- name: debian-7.4
 
 suites:
   - name: xenforodb
@@ -46,7 +46,7 @@ suites:
     attributes:
       xenforo:
         install_allow_from: ""
-        customlog: "/var/log/apache2/xenforo-access.log"
+        customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
       - "id-vagrant"
@@ -61,7 +61,7 @@ suites:
     attributes:
       xenforo:
         install_allow_from: ""
-        customlog: "/var/log/apache2/xenforo-access.log"
+        customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
       - "id-vagrant"
