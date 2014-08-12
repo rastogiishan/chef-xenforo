@@ -41,7 +41,7 @@ suites:
       - role[xenforo]
     driver_config:
       network:
-      - ["forwarded_port", {guest: 80, host: 8081}]
+      - ["forwarded_port", {guest: 80, host: 8081, auto_correct: true}]
       - ["private_network", {ip: "192.168.234.10"}]
     attributes:
       xenforo:
@@ -56,10 +56,11 @@ suites:
       - role[xenforo]
     driver_config:
       network:
-      - ["forwarded_port", {guest: 80, host: 8082}]
+      - ["forwarded_port", {guest: 443, host: 8444, auto_correct: true}]
       - ["private_network", {ip: "192.168.234.11"}]
     attributes:
       xenforo:
+        enable_ssl: true
         install_allow_from: ""
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"

@@ -14,27 +14,7 @@ if node['xenforo']['enable_ssl']
 
   include_recipe 'apache2::mod_ssl'
 
-  db_apache = Chef::EncryptedDataBagItem.load('xenforo', 'apache')
-
-  file node['xenforo']['ssl_public'] do
-    owner node['apache']['user']
-    group node['apache']['group']
-    mode '0644'
-    content db_apache['cert']
-  end
-
-  file node['xenforo']['ssl_private'] do
-    owner node['apache']['user']
-    group node['apache']['group']
-    mode '0600'
-    content db_apache['certkey']
-  end
-
-  file node['xenforo']['ca_cert'] do
-    owner node['apache']['user']
-    group node['apache']['group']
-    mode '0644'
-    content db_apache['cacert']
+  certificate_manage node['orange']['ssl_data_bag_item'] do
   end
 end
 

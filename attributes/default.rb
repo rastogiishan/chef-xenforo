@@ -1,5 +1,5 @@
 # Encoding: UTF-8
-default['xenforo']['domainname'] = 'bigpoint.net'
+default['xenforo']['domainname'] = 'bigpoint.com'
 node['tags'].each do |t|
   default['xenforo']['name'] = t[t.index('-') + 1, t.size - 1] if t.start_with?('id-')
 end
@@ -13,14 +13,15 @@ default['xenforo']['customlog'] = "\"|/usr/bin/logger -t #{node['apache']['packa
 default['xenforo']['errorlog'] = "syslog:local7"
 # space seperated list - should be set in node
 default['xenforo']['server_aliases'] = "xenforo-vagrant.#{node['xenforo']['domainname']}"
-default['xenforo']['redirect_url'] = nil # f.ex. www.bigpoint.com/xyz/board (w/o http(s)) - if nil server_name will be used.
+default['xenforo']['redirect_url'] = nil
 default['xenforo']['use_bp_percona'] = true
 default['xenforo']['enable_ssl'] = false
+default['xenforo']['ssl_data_bag_item'] = 'xenforo'
+default['xenforo']['ssl_private'] = "/etc/ssl/private/#{node['fqdn']}.key"
+default['xenforo']['ssl_public'] = "/etc/ssl/certs/#{node['fqdn']}.pem"
+default['xenforo']['ca_cert'] = "/etc/ssl/certs/#{node['hostname']}-bundle.crt"
 default['xenforo']['sslprotocol'] = '-ALL +SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2'
 default['xenforo']['sslciphersuite'] = 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:!RC4:HIGH:!MD5:!aNULL:!EDH'
-default['xenforo']['ssl_private'] = '/etc/ssl/private/xenforo.key'
-default['xenforo']['ssl_public'] = '/etc/ssl/certs/xenforo.pem'
-default['xenforo']['ca_cert'] = '/etc/ssl/certs/xenforo-ca-cert.crt'
 default['xenforo']['enable_htpasswd'] = false
 default['xenforo']['htpasswd_file'] = "#{node['apache']['dir']}/htpasswd-#{node['xenforo']['name']}"
 default['xenforo']['htdocs_group'] = 'xenforo'
