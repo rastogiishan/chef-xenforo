@@ -23,7 +23,7 @@ end
 if node['xenforo']['enable_htpasswd']
   ht_user =  Chef::EncryptedDataBagItem.load('xenforo', 'htpasswd')
   htpasswd node['xenforo']['htpasswd_file'] do
-    user ht_user['names'][0]
+    user ht_user['name']
     password ht_user['password']
   end
 end
