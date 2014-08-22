@@ -4,6 +4,8 @@
 # Recipe::              server
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
+fail "Only one name allowed" unless  node['xenforo']['names'].length == 1
+
 include_recipe 'apache2-wrapper::default'
 include_recipe 'xenforo::_apache'
 
@@ -142,7 +144,7 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
 
   ip_db = nil
   port_db = nil
-  search(:node, "roles:xenforodb AND tags:id-#{node['xenforo']['name']}").each do |dbnode|
+  search(:node, "roles:xenforodb AND tags:id-#{node['xenforo']['names'][0]}").each do |dbnode|
     ip_db = dbnode['ipaddress']
     port_db = dbnode['mysql']['port']
     log "Found DB on #{ip_db}:#{port_db}"
@@ -150,7 +152,7 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
 
   ip_mem = nil
   port_mem = nil
-  search(:node, "roles:xenforomem AND tags:id-#{node['xenforo']['name']}").each do |memnode|
+  search(:node, "roles:xenforomem AND tags:id-#{node['xenforo']['names'][0]}").each do |memnode|
     ip_mem = memnode['ipaddress']
     port_mem = memnode['memcached']['port']
     log "Found memcache on #{ip_mem}:#{port_mem}"
@@ -170,9 +172,9 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
       mode '0644'
       variables('dbhost' => ip_db,
                 'dbport' => port_db,
-                'dbuser' => cred[node['xenforo']['name']]['username'],
-                'dbpass' => cred[node['xenforo']['name']]['password'],
-                'dbname' => cred[node['xenforo']['name']]['dbname'],
+                'dbuser' => cred[node['xenforo']['names'][0]]['username'],
+                'dbpass' => cred[node['xenforo']['names'][0]]['password'],
+                'dbname' => cred[node['xenforo']['names'][0]]['dbname'],
                 'memip' => ip_mem,
                 'memport' => port_mem,
                 'enable_mail' => node['xenforo']['enable_mail'],
@@ -185,7 +187,7 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
                 'cdn_user' => node['xenforo']['cdn']['user'],
                 'cdn_password' => cdn_password,
                 'debug' => node['xenforo']['debug'],
-                'short_name' => node['xenforo']['name'])
+                'short_name' => node['xenforo']['names'][0])
       source 'config_php.erb'
       only_if { File.exists?("#{node['xenforo']['htdocs_xenforo']}/library") }
     end

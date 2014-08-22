@@ -1,15 +1,17 @@
 # Encoding: UTF-8
 default['xenforo']['domainname'] = 'bigpoint.com'
+default['xenforo']['names'] = []
 node['tags'].each do |t|
-  default['xenforo']['name'] = t[t.index('-') + 1, t.size - 1] if t.start_with?('id-')
+  default['xenforo']['names'] << t[t.index('-') + 1, t.size - 1] if t.start_with?('id-')
 end
+default['xenforo']['db']['data_bag_item'] = node['xenforo']['names'].length == 1 ? node['xenforo']['names'][0] : "xenforo"
 default['xenforo']['server_name'] = 'localhost' # should be set in the node
-default['xenforo']['htdocs_xenforo'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['name']}"
+default['xenforo']['htdocs_xenforo'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}"
 default['xenforo']['htdocs_maintenance'] =  "#{node['apache']['docroot_dir']}/maintenance"
-# Local logging: "\"#{node['apache']['log_dir']}/#{node['xenforo']['name']}-access.log\"" common"
+# Local logging: "\"#{node['apache']['log_dir']}/#{node['xenforo']['name'][0]}-access.log\"" common"
 # Disable with: common env=!dontlog
 default['xenforo']['customlog'] = "\"|/usr/bin/logger -t #{node['apache']['package']} -p local6.info\" combined"
-# "\"#{node['apache']['log_dir']}/#{node['xenforo']['name']}-error.log\""
+# "\"#{node['apache']['log_dir']}/#{node['xenforo']['name'][0]}-error.log\""
 default['xenforo']['errorlog'] = "syslog:local7"
 # space seperated list - should be set in node
 default['xenforo']['server_aliases'] = "xenforo-vagrant.#{node['xenforo']['domainname']}"
@@ -23,7 +25,7 @@ default['xenforo']['ca_cert'] = "/etc/ssl/certs/#{node['hostname']}-bundle.crt"
 default['xenforo']['sslprotocol'] = '-ALL +SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2'
 default['xenforo']['sslciphersuite'] = 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:!RC4:HIGH:!MD5:!aNULL:!EDH'
 default['xenforo']['enable_htpasswd'] = false
-default['xenforo']['htpasswd_file'] = "#{node['apache']['dir']}/htpasswd-#{node['xenforo']['name']}"
+default['xenforo']['htpasswd_file'] = "#{node['apache']['dir']}/htpasswd-#{node['xenforo']['names'][0]}"
 default['xenforo']['htdocs_group'] = 'xenforo'
 default['xenforo']['repository'] = 'ssh://git@gitlab.bigpoint.net/xenforo/board.git'
 default['xenforo']['repository_revision'] = 'staging'

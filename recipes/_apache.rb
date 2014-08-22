@@ -4,6 +4,8 @@
 # Recipe::              _apache
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
+fail "Only one name allowed" unless  node['xenforo']['names'].length == 1
+
 node.default['apache']['default_site_enabled'] = false
 node.default['apache']['serversignature'] = 'Off'
 
@@ -14,14 +16,14 @@ if node['xenforo']['enable_ssl']
 
   include_recipe 'apache2::mod_ssl'
 
-  certificate_manage node['orange']['ssl_data_bag_item'] do
+  certificate_manage node['xenforo']['ssl_data_bag_item'] do
   end
 end
 
 if node['xenforo']['enable_htpasswd']
   ht_user =  Chef::EncryptedDataBagItem.load('xenforo', 'htpasswd')
   htpasswd node['xenforo']['htpasswd_file'] do
-    user ht_user['name']
+    user ht_user['names'][0]
     password ht_user['password']
   end
 end
@@ -50,14 +52,14 @@ directory node['xenforo']['php']['upload_tmp_dir'] do
   action :create
 end
 
-directory "/etc/php5/#{node['xenforo']['name']}" do
+directory "/etc/php5/#{node['xenforo']['names'][0]}" do
   owner 'root'
   group 'root'
   mode '0755'
   action :create
 end
 
-template "/etc/php5/#{node['xenforo']['name']}/php.ini" do
+template "/etc/php5/#{node['xenforo']['names'][0]}/php.ini" do
   source 'php_ini.erb'
   owner 'root'
   group 'root'
@@ -82,16 +84,16 @@ template '/etc/apache2/sites-available/001-default' do
   notifies :restart, 'service[apache2]', :delayed
 end
 
-template "/etc/apache2/sites-available/xenforo-#{node['xenforo']['name']}" do
+template "/etc/apache2/sites-available/xenforo-#{node['xenforo']['names'][0]}" do
   source 'site_xenforo.erb'
-  variables('phpinidir' =>  "/etc/php5/#{node['xenforo']['name']}")
+  variables('phpinidir' =>  "/etc/php5/#{node['xenforo']['names'][0]}")
   notifies :restart, 'service[apache2]', :delayed
 end
 
 template '/etc/apache2/sites-available/maintenance' do
   source 'site_maintanence.erb'
-  variables('phpinidir' =>  "/etc/php5/#{node['xenforo']['name']}")
+  variables('phpinidir' =>  "/etc/php5/#{node['xenforo']['names'][0]}")
 end
 
-apache_site "xenforo-#{node['xenforo']['name']}"
+apache_site "xenforo-#{node['xenforo']['names'][0]}"
 apache_site '001-default'

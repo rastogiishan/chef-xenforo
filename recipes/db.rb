@@ -6,14 +6,14 @@
 
 # MySQL/Percona
 if node['xenforo']['use_bp_percona']
-  node.set['bp-percona']['credidentials'] = [ 'xenforo', 'mysql', node['xenforo']['name'] ]
+  node.set['bp-percona']['credidentials'] = [ 'xenforo', 'mysql', node['xenforo']['db']['data_bag_item'] ]
   node.set_unless['bp-percona']['innodb-buffer-pool-size'] = '256M'
   include_recipe 'bp-percona::_server'
   root_password = get_root_password
 else
   include_recipe 'mysql-chef_gem::default' unless `/opt/chef/embedded/bin/gem list`.include? 'mysql '
 
-  mysql_db = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')[node['xenforo']['name']]
+  mysql_db = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')[node['xenforo']['db']['data_bag_item']]
   root_password = mysql_db['root']
 
   node.set['mysql']['server_root_password'] = mysql_db['root']
@@ -26,36 +26,36 @@ db_cred = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')
 
 mysql_connection_info = { :host => 'localhost',
                           :username => 'root',
-                          :password => db_cred[node['xenforo']['name']]['root'] }
+                          :password => db_cred[node['xenforo']['db']['data_bag_item']]['root'] }
 
-cred = Chef::EncryptedDataBagItem.load('xenforo', 'db')[node['xenforo']['name']]
+node['xenforo']['names'].each do |db_name|
+  cred = Chef::EncryptedDataBagItem.load('xenforo', 'db')[db_name]
 
-log cred['dbname']
+  mysql_database cred['dbname']  do
+    connection mysql_connection_info
+    action :create
+  end
 
-mysql_database cred['dbname']  do
-  connection mysql_connection_info
-  action :create
-end
-
-mysql_database_user cred['username'] do
-  connection mysql_connection_info
-  password cred['password']
-  action :create
-end
-
-ipaddresses = []
-search(:node, "roles:xenforo AND tags:id-#{node['xenforo']['name']}").each do |xnode|
-  ipaddresses << xnode['ipaddress']
-end
-
-ipaddresses.each do |ipaddress|
   mysql_database_user cred['username'] do
     connection mysql_connection_info
     password cred['password']
-    database_name cred['dbname']
-    host ipaddress
-    privileges ['select', 'lock tables', 'insert', 'update', 'delete',
-                'create', 'drop', 'index', 'alter']
-    action :grant
+    action :create
+  end
+
+  ipaddresses = []
+  search(:node, "roles:xenforo AND tags:id-#{node['xenforo']['name']}").each do |xnode|
+    ipaddresses << xnode['ipaddress']
+  end
+
+  ipaddresses.each do |ipaddress|
+    mysql_database_user cred['username'] do
+      connection mysql_connection_info
+      password cred['password']
+      database_name cred['dbname']
+      host ipaddress
+      privileges ['select', 'lock tables', 'insert', 'update', 'delete',
+                  'create', 'drop', 'index', 'alter']
+      action :grant
+    end
   end
 end
