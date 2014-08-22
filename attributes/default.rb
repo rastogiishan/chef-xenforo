@@ -4,6 +4,7 @@ default['xenforo']['names'] = []
 node['tags'].each do |t|
   default['xenforo']['names'] << t[t.index('-') + 1, t.size - 1] if t.start_with?('id-')
 end
+fail 'No node name fount' if node['xenforo']['names'].empty?
 default['xenforo']['db']['data_bag_item'] = node['xenforo']['names'].length == 1 ? node['xenforo']['names'][0] : "xenforo"
 default['xenforo']['server_name'] = 'localhost' # should be set in the node
 default['xenforo']['htdocs_xenforo'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}"

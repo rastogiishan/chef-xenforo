@@ -6,6 +6,13 @@
 
 fail "Only one name allowed" unless  node['xenforo']['names'].length == 1
 
+puts '---------------------------------------------------------'
+puts '---------------------------------------------------------'
+puts node['xenforo']['names']
+puts node['xenforo']['names'][0]
+puts '---------------------------------------------------------'
+puts '---------------------------------------------------------'
+
 node.default['apache']['default_site_enabled'] = false
 node.default['apache']['serversignature'] = 'Off'
 

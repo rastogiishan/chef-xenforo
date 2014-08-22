@@ -20,7 +20,7 @@ NameVirtualHost 0.0.0.0:<% if node['xenforo']['enable_ssl'] %>443<% else %>80<% 
        Options -Indexes +FollowSymLinks
      <% if node['xenforo']['enable_htpasswd'] %>
        AuthType Basic
-       AuthName <%= node['xenforo']['name'] %>
+       AuthName <%= node['xenforo']['names'][0] %>
        Require valid-user
        AuthUserFile <%= node['xenforo']['htpasswd_file'] %>
      <% end %>

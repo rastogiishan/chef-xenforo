@@ -810,7 +810,7 @@ default['xenforo']['php']['file_uploads'] = 'On'
 # Temporary directory for HTTP uploaded files (will use system default if not
 # specified).
 # http://php.net/upload-tmp-dir
-default['xenforo']['php']['upload_tmp_dir'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['name']}-uploads"
+default['xenforo']['php']['upload_tmp_dir'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-uploads"
 
 # Maximum allowed size for uploaded files.
 # http://php.net/upload-max-filesize
@@ -1363,7 +1363,7 @@ default['xenforo']['php']['session']['save_handler'] = 'files'
 # where MODE is the octal representation of the mode. Note that this
 # does not overwrite the process's umask.
 # http://php.net/session.save-path
-default['xenforo']['php']['session']['save_path'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['name']}-sessions"
+default['xenforo']['php']['session']['save_path'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-sessions"
 
 # Whether to use cookies.
 # http://php.net/session.use-cookies
