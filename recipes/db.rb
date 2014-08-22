@@ -43,7 +43,7 @@ node['xenforo']['names'].each do |db_name|
   end
 
   ipaddresses = []
-  search(:node, "roles:xenforo AND tags:id-#{node['xenforo']['name']}").each do |xnode|
+  search(:node, "roles:xenforo AND tags:id-#{db_name}").each do |xnode|
     ipaddresses << xnode['ipaddress']
   end
 
