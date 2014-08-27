@@ -18,7 +18,7 @@ def get_host(url)
   url[a, url[a, url.size - 1].index('/')]
 end
 
-%w(git php5-mysql php5-gd php5-memcached php5-mcrypt libssh2-php).each do |pkg|
+%w(git php5-mysql php5-gd php5-memcached php5-mcrypt libssh2-php php5-imagick).each do |pkg|
   package pkg do
     action :install
   end

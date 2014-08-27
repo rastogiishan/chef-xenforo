@@ -19,7 +19,7 @@ node.default['apache']['serversignature'] = 'Off'
 include_recipe 'bp-php::default'
 include_recipe 'apache2::mod_php5'
 
-if node['xenforo']['enable_ssl']
+if node['xenforo']['ssl']['enable']
   node.default['apache']['mod_ssl']['cipher_suite'] = node['xenforo']['ssl']['ciphersuite']
 
   certificate_manage node['xenforo']['ssl']['data_bag_item'] do

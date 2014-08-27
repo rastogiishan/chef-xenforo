@@ -6,7 +6,7 @@ description      'Provides a xenforo forum'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.3.25'
 depends          'database', '~> 2.3'
-depends          'mysql', '~> 5.2.2'
+depends          'mysql', '~> 5.3.0'
 depends          'apache2', '~> 1'
 depends          'apache2-wrapper'
 depends          'build-essential', '>= 2.0.2'
