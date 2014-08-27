@@ -6,7 +6,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-- name: debian-7.4
+- name: debian-7.6
 
 suites:
   - name: xenforodb
@@ -32,6 +32,8 @@ suites:
     driver_config:
       network:
       - ["private_network", {ip: "192.168.234.13"}]
+      customize:
+        memory: 512
     attributes:
       tags: 
       - "id-vagrant"
@@ -43,6 +45,8 @@ suites:
       network:
       - ["forwarded_port", {guest: 80, host: 8081, auto_correct: true}]
       - ["private_network", {ip: "192.168.234.10"}]
+      customize:
+        memory: 512
     attributes:
       xenforo:
         install_allow_from: ""
@@ -58,9 +62,12 @@ suites:
       network:
       - ["forwarded_port", {guest: 443, host: 8444, auto_correct: true}]
       - ["private_network", {ip: "192.168.234.11"}]
+      customize:
+        memory: 512
     attributes:
       xenforo:
-        enable_ssl: true
+        ssl:
+          enable: true
         install_allow_from: ""
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"

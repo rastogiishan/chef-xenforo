@@ -1,22 +1,24 @@
-<% if node['xenforo']['enable_ssl'] %>
-NameVirtualHost 0.0.0.0:443
-<VirtualHost 0.0.0.0:443>
-   SSLEngine On			 
-   SSLCertificateFile <%= node['xenforo']['ssl_public'] %>
-   SSLCertificateKeyFile <%= node['xenforo']['ssl_private'] %>
-   SSLCACertificateFile <%= node['xenforo']['ca_cert'] %>
-   SSLHonorCipherOrder On
-   SSLProtocol <%= node['xenforo']['sslprotocol'] %>
-   SSLCipherSuite <%= node['xenforo']['sslciphersuite'] %>
-   SSLCompression off
-   ServerSignature off
-   Redirect / https://<%= @redirect_to %>
-   CustomLog <%= node['xenforo']['customlog'] %>
-   ErrorLog <%= node['xenforo']['errorlog'] %>
-</VirtualHost>
-<% else %>
 NameVirtualHost 0.0.0.0:80
 <VirtualHost 0.0.0.0:80>
-   Redirect / http://<%= @redirect_to %>
+    Redirect / http://<%= @redirect_to %>
+    CustomLog <%= @custom_log %>
+    ErrorLog <%= @error_log %>
+</VirtualHost>
+
+<% if @ssl_enable %>
+NameVirtualHost 0.0.0.0:443
+<VirtualHost 0.0.0.0:443>
+    Redirect / https://<%= @redirect_to %>
+    SSLEngine On
+    SSLCertificateFile <%= @ssl_public %>
+    SSLCertificateKeyFile <%= @ssl_private %>
+    SSLCACertificateFile <%= @ca_cert %>
+    SSLHonorCipherOrder on
+    SSLProtocol <%= @ssl_protocol %>
+    SSLCipherSuite <%= @ssl_ciphersuite %>
+    SSLCompression off
+    ServerSignature off
+    CustomLog <%= @custom_log %>
+    ErrorLog <%= @error_log %>
 </VirtualHost>
 <% end %>

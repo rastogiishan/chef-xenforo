@@ -15,5 +15,5 @@ user node['memcached']['user'] do
   home '/tmp'
 end
 
-include_recipe "memcached::default"
-#memcached_instance node['xenforo']['name']
+include_recipe 'memcached::default'
+# memcached_instance node['xenforo']['name']

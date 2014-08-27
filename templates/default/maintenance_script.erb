@@ -3,12 +3,12 @@
 
 if [ "$1" == "enable" ]; then
    mv /usr/bin/chef-client /usr/bin/chef-client.disabled
-   rm /etc/apache2/sites-enabled/xenforo-<%= node['xenforo']['name'] %>
-   ln -s /etc/apache2/sites-available/maintenance /etc/apache2/sites-enabled/
+   a2dissite <%= @site_xenforo %>
+   a2ensite <%= @site_maintenance %>
    killall -HUP apache2
 elif [ "$1" == "disable" ]; then
-   rm /etc/apache2/sites-enabled/maintenance
-   ln -s /etc/apache2/sites-available/xenforo-<%= node['xenforo']['name'] %> /etc/apache2/sites-enabled/
+   a2dissite <%= @site_maintenance %>
+   a2ensite <%= @site_xenforo %>
    killall -HUP apache2
    mv /usr/bin/chef-client.disabled /usr/bin/chef-client
 else

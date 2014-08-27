@@ -6,15 +6,13 @@
 
 # MySQL/Percona
 if node['xenforo']['use_bp_percona']
-  node.set['bp-percona']['credidentials'] = [ 'xenforo', 'mysql', node['xenforo']['db']['data_bag_item'] ]
+  node.set['bp-percona']['credidentials'] = ['xenforo', 'mysql', node['xenforo']['db']['data_bag_item']]
   node.set_unless['bp-percona']['innodb-buffer-pool-size'] = '256M'
   include_recipe 'bp-percona::_server'
-  root_password = get_root_password
 else
   include_recipe 'mysql-chef_gem::default' unless `/opt/chef/embedded/bin/gem list`.include? 'mysql '
 
   mysql_db = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')[node['xenforo']['db']['data_bag_item']]
-  root_password = mysql_db['root']
 
   node.set['mysql']['server_root_password'] = mysql_db['root']
   node.set['mysql']['server_repl_password'] = mysql_db['replication']

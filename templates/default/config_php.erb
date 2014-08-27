@@ -12,7 +12,7 @@ $config['cache']['cacheSessions']   = true;
 $config['cache']['frontend']        = 'Core';
 $config['cache']['frontendOptions'] = array(
     'caching'                 => true,
-    'cache_id_prefix'         => 'xf_',
+    'cache_id_prefix'         => 'xf_<%= @short_name %>_',
     //'automatic_serialization' => true,
     'lifetime'                => 0
 );

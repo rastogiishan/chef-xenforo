@@ -55,12 +55,9 @@ iptables_start() {
   /sbin/iptables -A INPUT -p tcp --dport 1024:65535 -j ACCEPT
   /sbin/iptables -A INPUT -p udp --dport 1024:65535 -j ACCEPT
 
-  # Flood prevention
-  /sbin/iptables -N FLOODLAND
-  /sbin/iptables -A INPUT -p tcp --dport <%= @port %> -m conntrack --ctstate NEW -j FLOODLAND
-  /sbin/iptables -A FLOODLAND -m recent --set --name FLOOD
-  /sbin/iptables -A FLOODLAND -m recent --update --seconds 5 --hitcount 20 --name FLOOD -j DROP
-  /sbin/iptables -A INPUT -p tcp --dport <%= @port %> -j ACCEPT
+  <% @ports.each do |port| %>
+  /sbin/iptables -A INPUT -p tcp --dport <%= port %> -j ACCEPT
+  <% end %>
 }
 
 iptables_stop() {

@@ -4,7 +4,7 @@
 # Recipe::              server
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
-fail "Only one name allowed" unless  node['xenforo']['names'].length == 1
+fail 'Only one name allowed' unless node['xenforo']['names'].length == 1
 
 include_recipe 'apache2-wrapper::default'
 include_recipe 'xenforo::_apache'
@@ -18,7 +18,7 @@ def get_host(url)
   url[a, url[a, url.size - 1].index('/')]
 end
 
-%w{git php5-mysql php5-gd php5-memcached php5-mcrypt libssh2-php}.each do |pkg|
+%w(git php5-mysql php5-gd php5-memcached php5-mcrypt libssh2-php).each do |pkg|
   package pkg do
     action :install
   end
@@ -57,7 +57,7 @@ end
 [node['xenforo']['repository'], node['xenforo']['repository_addons']].each do |url|
   if url.start_with?('ssh') || url.start_with?('git+ssh')
     host = get_host(url)
-    unless File.exists?(kh_prefix + host)
+    unless File.exist?(kh_prefix + host)
       bash 'add_to_known_hosts' do
         code <<-EOH
             ssh -o StrictHostKeyChecking=no git@#{host} exit
@@ -72,7 +72,7 @@ end
   end
 end
 
-if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
+if File.exist?(kh_prefix + get_host(node['xenforo']['repository']))
   [node['xenforo']['repository_destination'],
    node['xenforo']['repository_addons_destination']].each do |dir|
     directory dir do
@@ -130,11 +130,11 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
         killall -HUP apache2
     EOH
     notifies :run, 'execute[generate_status_script]', :delayed
-    only_if { File.exists?(ctag) }
+    only_if { File.exist?(ctag) }
     # notifies config.php should not be needed. Changed and should be restored therefor below
   end
 
-  %w{data internal_data}.each do |dir|
+  %w(data internal_data).each do |dir|
     directory "#{node['xenforo']['htdocs_xenforo']}/#{dir}" do
       owner node['apache']['user']
       group node['xenforo']['htdocs_group']
@@ -189,7 +189,7 @@ if File.exists?(kh_prefix + get_host(node['xenforo']['repository']))
                 'debug' => node['xenforo']['debug'],
                 'short_name' => node['xenforo']['names'][0])
       source 'config_php.erb'
-      only_if { File.exists?("#{node['xenforo']['htdocs_xenforo']}/library") }
+      only_if { File.exist?("#{node['xenforo']['htdocs_xenforo']}/library") }
     end
   end
 end
@@ -211,33 +211,7 @@ execute 'generate_status_script' do
   action :nothing
 end
 
-# Maintainance
-directory node['xenforo']['htdocs_maintenance'] do
-  owner 'root'
-  group node['apache']['group']
-  mode '0755'
-  recursive true
-  action :create
-end
-
-template "#{node['xenforo']['htdocs_maintenance']}/index.html" do
-  source 'maintenance.erb'
-  owner 'root'
-  group node['apache']['group']
-  mode '0644'
-  variables('maintenance_image' => '/maintenance/bg-professor.jpg',
-            'icon_image' => '/maintenance/icon-stern.png')
-end
-
-directory "#{node['xenforo']['htdocs_maintenance']}/maintenance" do
-  owner 'root'
-  group node['apache']['group']
-  mode '0755'
-  recursive true
-  action :create
-end
-
-%w{bg-professor.jpg icon-stern.png}.each do |img|
+%w(bg-professor.jpg icon-stern.png).each do |img|
   cookbook_file "#{node['xenforo']['htdocs_maintenance']}/maintenance/#{img}" do
     source img
     owner 'root'
