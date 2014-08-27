@@ -73,4 +73,3 @@ suites:
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
       - "id-vagrant"
-

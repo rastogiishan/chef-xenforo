@@ -20,6 +20,8 @@ else
   include_recipe 'mysql::server'
 end
 
+include_recipe 'database::default'
+
 db_cred = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')
 
 mysql_connection_info = { :host => 'localhost',
