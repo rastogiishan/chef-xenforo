@@ -8,6 +8,10 @@ fail 'Only one name allowed' unless  node['xenforo']['names'].length == 1
 
 node.set_unless['bp-php']['session']['save_path'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-sessions"
 node.set_unless['bp-php']['upload_tmp_dir'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-uploads"
+node.set_unless['bp-php']['upload_max_filesize'] = node['xenforo']['upload_max_filesize']
+node.set_unless['bp-php']['allow_url_fopen'] = 'On'
+node.set_unless['bp-php']['session']['cookie_httponly'] = ''
+node.set_unless['bp-php']['session']['cookie_secure'] = nil
 
 site_default = '001-default'
 site_xenforo = "xenforo-#{node['xenforo']['names'][0]}"

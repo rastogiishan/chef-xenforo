@@ -22,6 +22,7 @@ default['xenforo']['ssl']['enable'] = false
 default['xenforo']['ssl']['data_bag_item'] = 'xenforo'
 default['xenforo']['ssl']['protocol'] = '-ALL +SSLv3 +TLSv1 +TLSv1.1 +TLSv1.2'
 default['xenforo']['ssl']['ciphersuite'] = 'ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:!RC4:HIGH:!MD5:!aNULL:!EDH'
+default['xenforo']['upload_max_filesize'] = '4M'
 default['xenforo']['enable_htpasswd'] = false
 default['xenforo']['htpasswd_file'] = "#{node['apache']['dir']}/htpasswd-#{node['xenforo']['names'][0]}"
 default['xenforo']['htdocs_group'] = 'xenforo'
