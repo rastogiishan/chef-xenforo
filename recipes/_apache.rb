@@ -5,6 +5,7 @@
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
 fail 'Only one name allowed' unless  node['xenforo']['names'].length == 1
+fail 'Primary name is empty' if node['xenforo']['names'][0] == ''
 
 node.set_unless['bp-php']['session']['save_path'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-sessions"
 node.set_unless['bp-php']['upload_tmp_dir'] = "#{node['apache']['docroot_dir']}/#{node['xenforo']['names'][0]}-uploads"
