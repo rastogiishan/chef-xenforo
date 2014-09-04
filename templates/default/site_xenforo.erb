@@ -21,6 +21,11 @@ NameVirtualHost 0.0.0.0:80
        Deny from all
        Allow from <%= @ssl_enable ? '127.0.0.1' : @install_allow_from %>
      </Location>
+     <Location /admin.php>
+       Order Deny,Allow
+       Deny from all
+       Allow from <%= @ssl_enable ? '127.0.0.1' : @install_allow_from %>
+     </Location>
      <% end %>
      CustomLog <%= @custom_log %>
      ErrorLog <%= @error_log %>
@@ -54,6 +59,11 @@ NameVirtualHost 0.0.0.0:443
      </Directory>
      <% if @install_allow_from != '' %>
      <Location /install>
+       Order Deny,Allow
+       Deny from all
+       Allow from <%= @install_allow_from %>
+     </Location>
+     <Location /admin.php>
        Order Deny,Allow
        Deny from all
        Allow from <%= @install_allow_from %>
