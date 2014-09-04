@@ -223,6 +223,8 @@ end
 
 template '/usr/sbin/maintenance.sh' do
   source 'maintenance_script.erb'
+  variables('site_xenforo' => "xenforo-#{node['xenforo']['names'][0]}",
+            'site_maintenance' => 'maintenance')
   owner 'root'
   group 'root'
   mode '0755'
