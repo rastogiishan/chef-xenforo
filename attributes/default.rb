@@ -43,3 +43,5 @@ default['xenforo']['cdn']['provider'] = 'level3'
 default['xenforo']['cdn']['user'] = 'xenforo'
 default['xenforo']['cdn']['port'] = 22
 default['xenforo']['debug'] = false
+default['xenforo']['redirector']['server_name'] = 'board.bigpoint.com'
+default['xenforo']['redirector']['redirect_domain'] = 'bigpoint.com'

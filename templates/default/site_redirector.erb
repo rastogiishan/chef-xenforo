@@ -1,0 +1,17 @@
+# Chef generated. Don't edit. Changes will be overwritten
+#
+server {
+  listen   80;
+  server_name <%= node['xenforo']['redirector']['server_name'] %> *.<%= node['xenforo']['redirector']['server_name'] %>;
+  server_tokens off;
+  root /nowhere;
+
+  if ($host ~* ^([^.]+)\.<%= node['xenforo']['redirector']['server_name'].gsub '.', '\.' %>$) {
+    set $lang $1;
+  }
+
+  location / {
+    rewrite ^/([^/]+)(/.*)? http://$lang.<%= node['xenforo']['redirector']['redirect_domain'] %>/$1/board permanent;
+    rewrite ^(.*) http://www.<%= node['xenforo']['redirector']['redirect_domain'] %> permanent;
+  }
+}

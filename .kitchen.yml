@@ -73,3 +73,19 @@ suites:
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
       - "id-vagrant"
+  - name: redirector
+    run_list:
+      - recipe[up2date]
+      - role[xenforo-redirector]
+    driver_config:
+      network:
+      - ["forwarded_port", {guest: 80, host: 7080, auto_correct: true}]
+      - ["private_network", {ip: "192.168.234.14"}]
+      customize:
+        memory: 512
+    attributes:
+      xenforo:
+        redirector:
+          server_name: localhost
+      tags: 
+      - "id-vagrant"

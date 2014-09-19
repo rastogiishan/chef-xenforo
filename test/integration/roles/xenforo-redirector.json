@@ -1,0 +1,15 @@
+{
+    "name": "xenforo-redirector",
+    "description": "Tiny server for redirecting",
+    "json_class": "Chef::Role",
+    "default_attributes": {
+    },
+    "override_attributes": {
+    },
+    "chef_type": "role",
+    "run_list": [
+        "recipe[xenforo::redirector]"
+    ],
+    "env_run_lists": {
+    }
+}
