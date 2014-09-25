@@ -1,0 +1,9 @@
+{
+  "id": "social",
+  "vagrant": {
+    "encrypted_data": "OXiDG6ynQmf83t7oln4ir0oEPyuQJ4hn7kFzFVIqNhfkrcGVi97aczy9Jfhp\necDbTYAXzM2j26oLzqOazt81SMyueXjqUXMJ23Ij8t/JEd/HZTGY+Tr/tIof\nnGjHQIykgGnVEoXMbHIkxqewlov5aSvP7Rw3nwPNnNeif/k9cRCUTK94rYeZ\nw4p6KP+/pwwrfbaeKQhxbdZpjEgONkGImtk91KFsV2JnRv6usvd+fs6Lb5xQ\ntTWf7ZWYjEkY0SxsQdKpOxfp3POrnK8B7BMWbe2yVokVGHE4gNXaWgWghEY=\n",
+    "iv": "hLB8+RVvRDWUwmV8xXBRsQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

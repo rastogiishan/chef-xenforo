@@ -52,6 +52,8 @@ suites:
         install_allow_from: ""
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
+        social:
+          data_bag_item: vagrant
       tags: 
       - "id-vagrant"
   - name: xenforo2

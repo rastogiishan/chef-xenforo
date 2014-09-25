@@ -42,6 +42,7 @@ default['xenforo']['cdn']['host'] = 'xenforo-1028-storage.ingest.cdn.level3.net'
 default['xenforo']['cdn']['provider'] = 'level3'
 default['xenforo']['cdn']['user'] = 'xenforo'
 default['xenforo']['cdn']['port'] = 22
+default['xenforo']['social']['data_bag_item'] = nil 
 default['xenforo']['debug'] = false
 default['xenforo']['redirector']['server_name'] = 'board.bigpoint.com'
 default['xenforo']['redirector']['redirect_domain'] = 'bigpoint.com'

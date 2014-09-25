@@ -51,6 +51,16 @@ $config['cdn'] = array(
 );
 <% end %>
 
+<% unless @social.nil? %>
+$config['social'] = array('bigpoint' => array(
+'apiUrl' => '<%= @social['api_url'] %>', 
+'tokenUrl' => '<%= @social['token_url'] %>', 
+'authUrl' => '<%= @social['auth_url'] %>', 
+'clientId' => '<%= @social['client_id'] %>',
+'secret' => '<%= @social['secret'] %>',
+));
+<% end %>
+
 <% unless @javaScriptUrl.nil? %>
 $config['javaScriptUrl'] = '<%= @javaScriptUrl %>';
 <% end %>

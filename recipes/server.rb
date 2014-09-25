@@ -159,6 +159,13 @@ if File.exist?(kh_prefix + get_host(node['xenforo']['repository']))
     log "Found memcache on #{ip_mem}:#{port_mem}"
   end
 
+  # social
+  if node['xenforo']['social']['data_bag_item'].nil?
+    social = nil
+  else
+    social = Chef::EncryptedDataBagItem.load('xenforo', 'social')[node['xenforo']['social']['data_bag_item']]
+  end
+
   unless ip_db.nil?
     cred = Chef::EncryptedDataBagItem.load('xenforo', 'db')
     if node['xenforo']['cdn']['external_data_url'].nil?
@@ -187,6 +194,7 @@ if File.exist?(kh_prefix + get_host(node['xenforo']['repository']))
                 'cdn_port' => node['xenforo']['cdn']['port'],
                 'cdn_user' => node['xenforo']['cdn']['user'],
                 'cdn_password' => cdn_password,
+                'social' => social,
                 'debug' => node['xenforo']['debug'],
                 'short_name' => node['xenforo']['names'][0])
       source 'config_php.erb'
