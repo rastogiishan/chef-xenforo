@@ -8,8 +8,9 @@ server {
 
   if ($host ~* ^([^.]+)\.<%= node['xenforo']['redirector']['server_name'].gsub '.', '\.' %>$) {
     set $lang $1;
-  } else {
-    set $lang "www";
+  }
+  if ($lang = '') {
+    set $lang 'www';
   }
 
   location / {
