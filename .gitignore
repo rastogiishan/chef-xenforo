@@ -4,6 +4,7 @@ Berksfile.lock
 .vagrant
 test/integration/data_bags/xenforo/cdn.json
 test/integration/data_bags/xenforo/ssh.json
+test/integration/data_bags/xenforo/deployment-vagrant.json
 \#*
 .\#*
 .kitchen
