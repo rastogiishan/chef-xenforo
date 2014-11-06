@@ -71,6 +71,7 @@ suites:
         ssl:
           enable: true
         install_allow_from: ""
+        use_nexus_deploy: true
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
