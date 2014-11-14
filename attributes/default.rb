@@ -16,6 +16,7 @@ default['xenforo']['customlog'] = "\"|/usr/bin/logger -t #{node['apache']['packa
 default['xenforo']['errorlog'] = "syslog:local7"
 # space seperated list - should be set in node
 default['xenforo']['server_aliases'] = "xenforo-vagrant.#{node['xenforo']['domainname']}"
+default['xenforo']['cookie_domain'] = '.bigpoint.com'
 default['xenforo']['redirect_url'] = nil
 default['xenforo']['use_bp_percona'] = true
 default['xenforo']['repo_changed_file'] = '/tmp/repo-changed'

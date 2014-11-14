@@ -103,6 +103,7 @@ if File.exist?(node['xenforo']['htdocs_xenforo'])
                 'dbuser' => cred[node['xenforo']['names'][0]]['username'],
                 'dbpass' => cred[node['xenforo']['names'][0]]['password'],
                 'dbname' => cred[node['xenforo']['names'][0]]['dbname'],
+                'cookie_domain' => node['xenforo']['cookie_domain']
                 'memip' => ip_mem,
                 'memport' => port_mem,
                 'enable_mail' => node['xenforo']['enable_mail'],
