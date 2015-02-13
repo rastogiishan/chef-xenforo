@@ -43,8 +43,8 @@ iptables_start() {
   # Permit some icmp
   /sbin/iptables -A INPUT -p icmp -m icmp --icmp-type address-mask-request -j DROP
   /sbin/iptables -A INPUT -p icmp -m icmp --icmp-type timestamp-request -j DROP
-  #/sbin/iptables -A INPUT -p icmp -m icmp -m limit --limit 10/second -j ACCEPT 
   /sbin/iptables -A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
+  /sbin/iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
   /sbin/iptables -A INPUT -p icmp --icmp-type destination-unreachable -j ACCEPT
   /sbin/iptables -A INPUT -p icmp --icmp-type source-quench -j ACCEPT
   /sbin/iptables -A INPUT -p icmp --icmp-type time-exceeded -j ACCEPT
