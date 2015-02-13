@@ -4,6 +4,8 @@
 # Recipe::              redirector
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
+include_recipe 'xenforo::_firewall'
+
 node.set['nginx']['default_site_enabled'] = false
 include_recipe 'nginx::default'
 
