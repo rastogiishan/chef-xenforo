@@ -52,9 +52,8 @@ iptables_start() {
 
   # Allow established connections
   /sbin/iptables -A INPUT -p tcp -m state --state ESTABLISHED,RELATED -j ACCEPT
-  /sbin/iptables -A INPUT -p tcp --dport 1024:65535 -j ACCEPT
-  /sbin/iptables -A INPUT -p udp --dport 1024:65535 -j ACCEPT
 
+  /sbin/iptables -A INPUT -p udp --dport 123 -j ACCEPT
   <% @ports.each do |port| %>
   /sbin/iptables -A INPUT -p tcp --dport <%= port %> -j ACCEPT
   <% end %>
