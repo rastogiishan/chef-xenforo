@@ -7,7 +7,7 @@
 # MySQL/Percona
 if node['xenforo']['use_bp_percona']
   node.set['bp-percona']['credidentials'] = ['xenforo', 'mysql', node['xenforo']['db']['data_bag_item']]
-  node.set_unless['bp-percona']['innodb-buffer-pool-size'] = '256M'
+  node.set_unless['bp-percona']['innodb-buffer-pool-size'] = '256M' if node.roles.include? 'xenforo'
   include_recipe 'bp-percona::_server'
 else
   include_recipe 'mysql-chef_gem::default' unless `/opt/chef/embedded/bin/gem list`.include? 'mysql '
