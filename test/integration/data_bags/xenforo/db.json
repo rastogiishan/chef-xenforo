@@ -1,8 +1,8 @@
 {
   "id": "db",
   "vagrant": {
-    "encrypted_data": "Ho5JKs+T5/SRZ0SjK78KX1wL+86WrOv+V+idopoedEwelAI8VuEZQo0gCDVq\nYk7GvjVDQbcltOONNexBv9EUxwuExOQic2JCVuJGVe97lS02j6UEgkbJzeUS\n/icaHE2n3rLppmOabPt22E3ceKsz+UkzH4K4RsAWqZVuXSzqo3QUI+3izOEw\ngR7FAU84q+oP\n",
-    "iv": "o3blVWjCd8jJKpXLZWxBdA==\n",
+    "encrypted_data": "X9hcb6gMqFrYDMsm4fB+JSnEbgpYVIqfQnand4gVXuvcycBgqEDLf+QJuUqL\nTOqBHia3/FO/9zYCMtD/sUyvz8BGz0gGN8HSsebojMbQUXeWWBT/PaodhHJi\nGFeaotHN28XJWTXDj/IfKLR0Ur2CO/g6rT/byo2aO+64y4UDrGpe8b4GzgqF\nBu9BK37Gs4rW\n",
+    "iv": "de+c8eTcq4uG3faryvuTpw==\n",
     "version": 1,
     "cipher": "aes-256-cbc"
   }
