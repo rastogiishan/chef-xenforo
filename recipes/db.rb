@@ -58,4 +58,23 @@ node['xenforo']['names'].each do |db_name|
       action :grant
     end
   end
+
+  # xenforo statistic api user
+  ipaddresses = []
+  search(:node, "roles:xenforo-statistic-api AND chef_environment:#{node.chef_environment}").each do |xnode|
+    ipaddresses << xnode['ipaddress']
+  end
+
+  ipaddresses.each do |ipaddress|
+    next if false == cred.key?('xfsapi_username')
+
+    mysql_database_user cred['xfsapi_username'] do
+      connection mysql_connection_info
+      password cred['xfsapi_password']
+      database_name cred['dbname']
+      host ipaddress
+      privileges ['select']
+      action :grant
+    end
+  end
 end

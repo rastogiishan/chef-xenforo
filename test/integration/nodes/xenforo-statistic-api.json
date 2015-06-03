@@ -1,0 +1,24 @@
+{
+    "id": "xenforo-statistic-api",
+    "name": "xenforo-statistic-api",
+    "chef_environment": "_default",
+    "json_class": "Chef::Node",
+    "automatic": {
+    "hostname": "xenforo-statistic-api",
+    "os": "wheezy",
+    "ipaddress": "192.168.234.14"
+    },
+    "normal": {
+    },
+    "chef_type": "node",
+    "default": {
+    "roles": [
+        "xenforo-statistic-api"
+    ]
+    },
+    "override": {
+    },
+    "run_list": [
+        "role[xenforo-statistic-api]"
+    ]
+}

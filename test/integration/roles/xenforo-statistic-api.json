@@ -1,0 +1,16 @@
+{
+    "name": "xenforo-statistic-api",
+    "description": "Xenforo statistic API",
+    "json_class": "Chef::Role",
+    "default_attributes": {
+    },
+    "override_attributes": {
+    },
+    "chef_type": "role",
+    "run_list": [
+        "recipe[restapi::default]",
+        "recipe[restapi::xfsapi]"
+    ],
+    "env_run_lists": {
+    }
+}
