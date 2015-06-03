@@ -65,15 +65,16 @@ node['xenforo']['names'].each do |db_name|
     ipaddresses << xnode['ipaddress']
   end
 
-  mysql_database_user cred['xfsapi_username'] do
-    connection mysql_connection_info
-    password cred['xfsapi_password']
-    database_name cred['dbname']
-    host ipaddresses[0]
-    privileges ['select']
-    action :grant
+  ipaddresses.each do |ipaddress|
+    next if false == cred.key?('xfsapi_username')
 
-    only_if { cred['xfsapi_username'].empty? == false }
+    mysql_database_user cred['xfsapi_username'] do
+      connection mysql_connection_info
+      password cred['xfsapi_password']
+      database_name cred['dbname']
+      host ipaddress
+      privileges ['select']
+      action :grant
+    end
   end
-
 end
