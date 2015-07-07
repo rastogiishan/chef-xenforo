@@ -12,9 +12,12 @@
     },
     "chef_type": "node",
     "default": {
-    "roles": [
+      "roles": [
         "xenforo-statistic-api"
-    ]
+      ],
+      "xenforo": {
+        "private_ip": "192.168.234.14"
+      } 
     },
     "override": {
     },

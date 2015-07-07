@@ -23,6 +23,8 @@ suites:
         bind_address: "192.168.234.12"
       bp-percona:
         bind-address: "192.168.234.12"
+      xenforo:
+        private_ip: "192.168.234.12"
       tags: 
       - "id-vagrant"
   - name: xenforomem
@@ -35,6 +37,8 @@ suites:
       customize:
         memory: 512
     attributes:
+      xenforo:
+        private_ip: "192.168.234.13"
       tags: 
       - "id-vagrant"
   - name: xenforo1
@@ -49,6 +53,7 @@ suites:
         memory: 512
     attributes:
       xenforo:
+        private_ip: "192.168.234.10"
         install_allow_from: ""
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
@@ -68,10 +73,13 @@ suites:
         memory: 512
     attributes:
       xenforo:
+        private_ip: "192.168.234.11"
         ssl:
           enable: true
         install_allow_from: ""
         use_nexus_deploy: true
+        nexus:
+          external: true
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 
@@ -90,5 +98,7 @@ suites:
       xenforo:
         redirector:
           server_name: localhost
+      xenforo:
+        private_ip: "192.168.234.14"
       tags: 
       - "id-vagrant"

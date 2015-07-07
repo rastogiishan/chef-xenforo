@@ -13,9 +13,12 @@
     },
     "chef_type": "node",
     "default": {
-	"roles": [
-	    "xenforo"
-	]
+      "roles": [
+        "xenforo"
+      ],
+      "xenforo": {
+        "private_ip": "192.168.234.11"
+      }
     },
     "override": {
     },

@@ -17,9 +17,12 @@
     },
     "chef_type": "node",
     "default": {
-	"roles": [
-	    "xenforodb"
-	]
+      "roles": [
+        "xenforodb"
+      ],
+      "xenforo": {
+        "private_ip": "192.168.234.12"
+      }
     },
     "override": {
     },
