@@ -20,7 +20,11 @@ else
   include_recipe 'mysql::server'
 end
 
-include_recipe 'database::default'
+begin
+  include_recipe 'database::default'
+rescue
+  Chef::Log.info 'Using recent version of database with no default recipe.'
+end
 
 db_cred = Chef::EncryptedDataBagItem.load('xenforo', 'mysql')
 
