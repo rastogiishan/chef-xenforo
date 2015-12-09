@@ -65,7 +65,7 @@ if File.exist?(node['xenforo']['htdocs_xenforo'])
 
   ip_db = nil
   port_db = nil
-  search(:node, "roles:xenforodb AND tags:id-#{node['xenforo']['names'][0]}").each do |dbnode|
+  search(:node, "roles:xenforodb AND tags:id-#{node['xenforo']['names'][0]} AND chef_environment:#{node.chef_environment}").each do |dbnode|
     ip_db = dbnode['xenforo']['private_ip']
     port_db = dbnode['mysql']['port']
     log "Found DB on #{ip_db}:#{port_db}"
@@ -73,7 +73,7 @@ if File.exist?(node['xenforo']['htdocs_xenforo'])
 
   ip_mem = nil
   port_mem = nil
-  search(:node, "roles:xenforomem AND tags:id-#{node['xenforo']['names'][0]}").each do |memnode|
+  search(:node, "roles:xenforomem AND tags:id-#{node['xenforo']['names'][0]} AND chef_environment:#{node.chef_environment}").each do |memnode|
     ip_mem = memnode['xenforo']['private_ip']
     port_mem = memnode['memcached']['port']
     log "Found memcache on #{ip_mem}:#{port_mem}"

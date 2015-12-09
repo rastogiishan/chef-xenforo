@@ -46,7 +46,7 @@ bash 'nexus_file_deploy' do
     rm -rf $HTOLD && \
     killall -HUP apache2
   EOH
-  only_if { File.exists? NEXT_DIR }
+  only_if { File.exist? NEXT_DIR }
   #  notifies :run, 'execute[generate_status_script]', :delayed
   # notifies config.php should not be needed. Changed and should be restored therefor below
 end
