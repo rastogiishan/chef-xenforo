@@ -23,6 +23,7 @@ default['xenforo']['use_bp_percona'] = true
 default['xenforo']['repo_changed_file'] = '/tmp/repo-changed'
 default['xenforo']['use_nexus_deploy'] = false
 default['xenforo']['nexus']['external'] = false
+default['xenforo']['nexus']['auth'] = false
 default['xenforo']['ssl']['enable'] = false
 default['xenforo']['ssl']['data_bag_item'] = 'xenforo'
 default['xenforo']['ssl']['protocol'] = 'All -SSLv2 -SSLv3'

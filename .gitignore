@@ -5,6 +5,7 @@ Berksfile.lock
 test/integration/data_bags/xenforo/cdn.json
 test/integration/data_bags/xenforo/ssh.json
 test/integration/data_bags/xenforo/deployment-vagrant.json
+test/integration/data_bags/xenforo/nexusauth.json
 \#*
 .\#*
 .kitchen

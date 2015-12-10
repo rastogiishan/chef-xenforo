@@ -27,16 +27,20 @@ class ArtifactResolution
 end
 
 action :update do
+  if new_resource.nexus_username.nil?
+    nexus_auth = nil
+  else
+    #nexus_auth = Base64.encode64("#{new_resource.nexus_username}:#{new_resource.nexus_password}").strip
+    nexus_auth = "user=#{new_resource.nexus_username}; pass=#{new_resource.nexus_password}"
+  end
+  puts "========================\n\n\n\n\n#{nexus_auth}\n\n\n\n\n========================"
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
   # POM (XML) URL
   url = 'https://'
-  url << new_resource.nexus_server
-  url << '/nexus/service/local/artifact/maven/resolve?g='
-  url << new_resource.groupid
-  url << '&a='
-  url << new_resource.name
-  url << '&e='
-  url << new_resource.extension
+  # url << "#{new_resource.nexus_username}:#{new_resource.nexus_password}@" unless new_resource.nexus_username.nil?
+  url << "#{new_resource.nexus_server}/nexus/service/local/artifact/maven/resolve?g=#{new_resource.groupid}"
+  url << "&a=#{new_resource.name}&e=#{new_resource.extension}"
+
   if new_resource.repository
     url << '&r='
     url << new_resource.repository
@@ -48,17 +52,20 @@ action :update do
     url << new_resource.classifier
   end
 
-  puts "Fetching from Nexus: " << url
+  log "Fetching from Nexus: #{url}"
 
-  @xml_data = URI.parse(url).read
+  #  @xml_data = URI.parse(url).read
+  if new_resource.nexus_username.nil?
+    @xml_data = open(url).read
+  else
+    @xml_data = open(url, :http_basic_authentication=>[new_resource.nexus_username, new_resource.nexus_password]).read
+  end
   ar_new = ArtifactResolution.load_from_xml(REXML::Document.new(@xml_data).root)
 
   # Archive URL
   url = 'https://'
-  url << new_resource.nexus_server
-  url << '/nexus/content/repositories'
-  url << '/' + new_resource.repository
-  url << ar_new.data.repository_path
+  url << "#{new_resource.nexus_username}:#{new_resource.nexus_password}@" unless new_resource.nexus_username.nil?
+  url << "#{new_resource.nexus_server}/nexus/content/repositories/#{new_resource.repository}#{ar_new.data.repository_path}"
 
   # Definitions
   xml_file = "/var/cache/#{new_resource.name}.xml"
@@ -67,15 +74,24 @@ action :update do
 
   # Compare versions
   if ::File.exist?(xml_file)
-    ar_old =  ArtifactResolution.load_from_file(xml_file)
+    ar_old = ArtifactResolution.load_from_file(xml_file)
     new_resource.updated_by_last_action(ar_old.data.version != ar_new.data.version)
   else
     new_resource.updated_by_last_action(true)
   end
 
+  # FIXME!
+  # Does not work, but should
+  if new_resource.nexus_username.nil?
+    nexus_auth = nil
+  else
+    nexus_auth = Base64.encode64("#{new_resource.nexus_username}:#{new_resource.nexus_password}").strip
+  end
+
   remote_file archive do
     source url
     backup 0
+    headers('Authorization' => "Basic #{nexus_auth}") unless nexus_auth.nil?
     action :create
     notifies :run, "ruby_block[validate_checksum_#{new_resource.name}]", :immediately
     only_if { new_resource.updated_by_last_action? }

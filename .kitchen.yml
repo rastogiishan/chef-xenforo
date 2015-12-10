@@ -6,7 +6,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-- name: debian-7.8
+- name: debian-7.9
 
 suites:
   - name: xenforodb
@@ -80,6 +80,7 @@ suites:
         use_nexus_deploy: true
         nexus:
           external: true
+          auth: true
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
       tags: 

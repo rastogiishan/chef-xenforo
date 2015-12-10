@@ -15,10 +15,18 @@ directory NEXT_DIR do
   action :delete
 end
 
+if node['xenforo']['nexus']['auth']
+  nexus_auth = Chef::EncryptedDataBagItem.load('xenforo', 'nexusauth')[node['xenforo']['names'][0]]
+else
+  nexus_auth = nil
+end
+
 xenforo_nexuspackage xenforo_package['artifact'] do
   repository xenforo_package['repository']
   groupid xenforo_package['groupid']
   nexus_server node['xenforo']['nexus']['external'] ? xenforo_package['host_external'] : xenforo_package['host']
+  nexus_username nexus_auth['username'] if node['xenforo']['nexus']['auth']
+  nexus_password nexus_auth['password'] if node['xenforo']['nexus']['auth']
   extension xenforo_package['extension']
   version xenforo_package['version']
   classifier xenforo_package['classifier']
