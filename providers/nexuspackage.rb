@@ -27,13 +27,6 @@ class ArtifactResolution
 end
 
 action :update do
-  if new_resource.nexus_username.nil?
-    nexus_auth = nil
-  else
-    #nexus_auth = Base64.encode64("#{new_resource.nexus_username}:#{new_resource.nexus_password}").strip
-    nexus_auth = "user=#{new_resource.nexus_username}; pass=#{new_resource.nexus_password}"
-  end
-  puts "========================\n\n\n\n\n#{nexus_auth}\n\n\n\n\n========================"
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
   # POM (XML) URL
   url = 'https://'
@@ -54,10 +47,12 @@ action :update do
 
   log "Fetching from Nexus: #{url}"
 
-  #  @xml_data = URI.parse(url).read
+  # *** AUTH ***
   if new_resource.nexus_username.nil?
+    nexus_auth = nil
     @xml_data = open(url).read
   else
+    nexus_auth = Base64.encode64("#{new_resource.nexus_username}:#{new_resource.nexus_password}").strip
     @xml_data = open(url, :http_basic_authentication=>[new_resource.nexus_username, new_resource.nexus_password]).read
   end
   ar_new = ArtifactResolution.load_from_xml(REXML::Document.new(@xml_data).root)
@@ -78,14 +73,6 @@ action :update do
     new_resource.updated_by_last_action(ar_old.data.version != ar_new.data.version)
   else
     new_resource.updated_by_last_action(true)
-  end
-
-  # FIXME!
-  # Does not work, but should
-  if new_resource.nexus_username.nil?
-    nexus_auth = nil
-  else
-    nexus_auth = Base64.encode64("#{new_resource.nexus_username}:#{new_resource.nexus_password}").strip
   end
 
   remote_file archive do
