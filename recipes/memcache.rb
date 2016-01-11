@@ -4,17 +4,19 @@
 # Recipe::              memcache
 # Author::              Thorsten Winkler (<t.winkler@bigpoint.net>)
 
-group node['memcached']['group'] do
-  action :create
-  not_if node['memcached']['group'].nil?
+unless node['memcached']['group'].nil?
+  group node['memcached']['group'] do
+    action :create
+  end
 end
 
-user node['memcached']['user'] do
-  comment 'memcache'
-  group node['memcached']['group']
-  system true
-  home '/tmp'
-  not_if node['memcached']['user'].nil?
+unless node['memcached']['user'].nil?
+  user node['memcached']['user'] do
+    comment 'memcache'
+    group node['memcached']['group']
+    system true
+    home '/tmp'
+  end
 end
 
 include_recipe 'memcached::default'
