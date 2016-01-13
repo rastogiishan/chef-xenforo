@@ -54,7 +54,7 @@ suites:
     attributes:
       xenforo:
         private_ip: "192.168.234.10"
-        install_allow_from: ""
+        install_allow_from: [ "192.168.0.0/16", "172.16.0.0/12", "10.0.0.0/8" ]
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
         social:
@@ -76,7 +76,7 @@ suites:
         private_ip: "192.168.234.11"
         ssl:
           enable: true
-        install_allow_from: ""
+        install_allow_from: "192.168.0.0/16"
         use_nexus_deploy: true
         nexus:
           external: true

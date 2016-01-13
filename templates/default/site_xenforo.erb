@@ -15,16 +15,24 @@ NameVirtualHost 0.0.0.0:80
        AuthUserFile <%= @htpasswd_file %>
      <% end %>
      </Directory>
-     <% if @install_allow_from != '' %>
+     <% unless @install_allow_from.nil? %>
      <Location /install>
        Order Deny,Allow
        Deny from all
-       Allow from <%= @ssl_enable ? '127.0.0.1' : @install_allow_from %>
+       <% unless @ssl_enable %>
+       <% @install_allow_from.each do |ip| %>
+       Allow from <%= ip %>
+       <% end %>
+       <% end %>
      </Location>
      <Location /admin.php>
        Order Deny,Allow
        Deny from all
-       Allow from <%= @ssl_enable ? '127.0.0.1' : @install_allow_from %>
+       <% unless @ssl_enable %>
+       <% @install_allow_from.each do |ip| %>
+       Allow from <%= ip %>
+       <% end %>
+       <% end %>
      </Location>
      <% end %>
      CustomLog <%= @custom_log %>
@@ -57,16 +65,20 @@ NameVirtualHost 0.0.0.0:443
        AuthUserFile <%= @htpasswd_file %>
      <% end %>
      </Directory>
-     <% if @install_allow_from != '' %>
+     <% unless @install_allow_from.nil? %>
      <Location /install>
        Order Deny,Allow
        Deny from all
-       Allow from <%= @install_allow_from %>
+       <% @install_allow_from.each do |ip| %>
+       Allow from <%= ip %>
+       <% end %>
      </Location>
      <Location /admin.php>
        Order Deny,Allow
        Deny from all
-       Allow from <%= @install_allow_from %>
+       <% @install_allow_from.each do |ip| %>
+       Allow from <%= ip %>
+       <% end %>
      </Location>
      <% end %>
      CustomLog <%= @custom_log %>

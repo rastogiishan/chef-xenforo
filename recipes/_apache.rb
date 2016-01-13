@@ -34,7 +34,7 @@ if node['xenforo']['ssl']['enable']
 end
 
 if node['xenforo']['enable_htpasswd']
-  ht_user =  Chef::EncryptedDataBagItem.load('xenforo', 'htpasswd')
+  ht_user = Chef::EncryptedDataBagItem.load('xenforo', 'htpasswd')
   htpasswd node['xenforo']['htpasswd_file'] do
     user ht_user['name']
     password ht_user['password']
@@ -90,6 +90,17 @@ template "#{node['apache']['dir']}/sites-available/#{site_default}" do
   notifies :restart, 'service[apache2]', :delayed
 end
 
+if node['xenforo']['install_allow_from'].is_a? Array
+  install_allow_from = node['xenforo']['install_allow_from'].empty? \
+                       ? nil : node['xenforo']['install_allow_from']
+elsif node['xenforo']['install_allow_from'].is_a? String
+  Chef::Application.fatal!('install_allow_from contains white spaces', 42) if node['xenforo']['install_allow_from'].match(/\s/)
+  install_allow_from = node['xenforo']['install_allow_from'].empty? \
+                       ? nil : [node['xenforo']['install_allow_from']]
+else
+  Chef::Application.fatal!('install_allow_from not of the right type', 42)
+end
+
 template "#{node['apache']['dir']}/sites-available/#{site_xenforo}" do
   source 'site_xenforo.erb'
   variables('instance_name' => node['xenforo']['names'][0],
@@ -100,7 +111,7 @@ template "#{node['apache']['dir']}/sites-available/#{site_xenforo}" do
             'htdocs' => node['xenforo']['htdocs_xenforo'],
             'htpasswd' => node['xenforo']['enable_htpasswd'],
             'htpasswd_file' => node['xenforo']['htpasswd_file'],
-            'install_allow_from' => node['xenforo']['install_allow_from'],
+            'install_allow_from' => install_allow_from,
             'custom_log' => node['xenforo']['customlog'],
             'error_log' => node['xenforo']['errorlog'],
             'ssl_enable' => node['xenforo']['ssl']['enable'],
@@ -140,7 +151,7 @@ end
 
 template "#{node['apache']['dir']}/sites-available/#{site_maintenance}" do
   source 'site_maintanence.erb'
-  variables('phpinidir' =>  node['bp-php']['ini_path'],
+  variables('phpinidir' => node['bp-php']['ini_path'],
             'htdocs' => node['xenforo']['htdocs_maintenance'],
             'ssl_enable' => node['xenforo']['ssl']['enable'],
             'ssl_private' => "/etc/ssl/private/#{node['fqdn']}.key",
