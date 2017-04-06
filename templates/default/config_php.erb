@@ -40,8 +40,7 @@ $config['cookie'] = array(
 $config['acpSuffix'] = '<%= @short_name %>';
 
 <% unless @externalDataUrl.nil? %>
-$config['externalDataUrl'] = '<%= @externalDataUrl %>'
-. $config['acpSuffix'];
+$config['externalDataUrl'] = '<%= @externalDataUrl %>' . $config['acpSuffix'];
 
 $config['cdn'] = array(
 'host' => '<%= @cdn_host %>',

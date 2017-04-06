@@ -4,7 +4,7 @@ maintainer_email 't.winkler@bigpoint.net'
 license          'All rights reserved'
 description      'Provides a xenforo forum'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.1.1'
+version          '1.1.2'
 
 depends          'database'
 depends          'mysql'
