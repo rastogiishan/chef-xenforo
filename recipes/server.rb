@@ -48,11 +48,11 @@ file '/root/.ssh/id_rsa.pub' do
   content keys['root']['publickey']
 end
 
-#if node['xenforo']['use_nexus_deploy']
-#  include_recipe 'xenforo::_deploy_nexus'
-#else
-#  include_recipe 'xenforo::_deploy_git'
-#end
+if node['xenforo']['use_nexus_deploy']
+  include_recipe 'xenforo::_deploy_nexus'
+else
+  include_recipe 'xenforo::_deploy_git'
+end
 
 if File.exist?(node['xenforo']['htdocs_xenforo'])
   %w(data internal_data).each do |dir|
