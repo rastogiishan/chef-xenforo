@@ -28,7 +28,7 @@ $config['cache']['backendOptions']  = array(
 );
 <% end %>
 
-$config['enableMail'] = <%= @enable_mail %>; 
+$config['enableMail'] = <%= @enable_mail %>;
 $config['superAdmins'] = '<%= @super_admins %>';
 
 $config['cookie'] = array(
@@ -40,22 +40,23 @@ $config['cookie'] = array(
 $config['acpSuffix'] = '<%= @short_name %>';
 
 <% unless @externalDataUrl.nil? %>
-$config['externalDataUrl'] = '<%= @externalDataUrl %>' 
+$config['externalDataUrl'] = '<%= @externalDataUrl %>'
 . $config['acpSuffix'];
 
 $config['cdn'] = array(
 'host' => '<%= @cdn_host %>',
 'port' => <%= @cdn_port %>,
 'user' => '<%= @cdn_user %>',
-'password' => '<%= @cdn_password %>'
+'publicKey' => '<%= @publicKey %>',
+'privateKey' => '<%= @privateKey %>'
 );
 <% end %>
 
 <% unless @social.nil? %>
 $config['social'] = array('bigpoint' => array(
-'apiUrl' => '<%= @social['api_url'] %>', 
-'tokenUrl' => '<%= @social['token_url'] %>', 
-'authUrl' => '<%= @social['auth_url'] %>', 
+'apiUrl' => '<%= @social['api_url'] %>',
+'tokenUrl' => '<%= @social['token_url'] %>',
+'authUrl' => '<%= @social['auth_url'] %>',
 'clientId' => '<%= @social['client_id'] %>',
 'secret' => '<%= @social['secret'] %>',
 ));

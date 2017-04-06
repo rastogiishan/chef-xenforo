@@ -13,6 +13,8 @@ suites:
     run_list:
       - recipe[up2date]
       - role[xenforodb]
+    data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     driver_config:
       network:
       - ["private_network", {ip: "192.168.234.12"}]
@@ -25,12 +27,15 @@ suites:
         bind-address: "192.168.234.12"
       xenforo:
         private_ip: "192.168.234.12"
-      tags: 
+      tags:
       - "id-vagrant"
+
   - name: xenforomem
     run_list:
       - recipe[up2date]
       - role[xenforomem]
+    data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     driver_config:
       network:
       - ["private_network", {ip: "192.168.234.13"}]
@@ -39,12 +44,15 @@ suites:
     attributes:
       xenforo:
         private_ip: "192.168.234.13"
-      tags: 
+      tags:
       - "id-vagrant"
+
   - name: xenforo1
     run_list:
       - recipe[up2date]
       - role[xenforo]
+    data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     driver_config:
       network:
       - ["forwarded_port", {guest: 80, host: 8081, auto_correct: true}]
@@ -57,14 +65,18 @@ suites:
         install_allow_from: [ "192.168.0.0/16", "172.16.0.0/12", "10.0.0.0/8" ]
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
+        #use_nexus_deploy: true
         social:
           data_bag_item: vagrant
-      tags: 
+      tags:
       - "id-vagrant"
+
   - name: xenforo2
     run_list:
       - recipe[up2date]
       - role[xenforo]
+    data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     driver_config:
       network:
       - ["forwarded_port", {guest: 443, host: 8444, auto_correct: true}]
@@ -83,12 +95,15 @@ suites:
           auth: true
         customlog: "/var/log/apache2/xenforo-access.log combined"
         errorlog: "/var/log/apache2/xenforo-error.log"
-      tags: 
+      tags:
       - "id-vagrant"
+
   - name: redirector
     run_list:
       - recipe[up2date]
       - role[xenforo-redirector]
+    data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     driver_config:
       network:
       - ["forwarded_port", {guest: 80, host: 7080, auto_correct: true}]
@@ -101,5 +116,5 @@ suites:
           server_name: localhost
       xenforo:
         private_ip: "192.168.234.14"
-      tags: 
+      tags:
       - "id-vagrant"

@@ -48,11 +48,11 @@ file '/root/.ssh/id_rsa.pub' do
   content keys['root']['publickey']
 end
 
-if node['xenforo']['use_nexus_deploy']
-  include_recipe 'xenforo::_deploy_nexus'
-else
-  include_recipe 'xenforo::_deploy_git'
-end
+#if node['xenforo']['use_nexus_deploy']
+#  include_recipe 'xenforo::_deploy_nexus'
+#else
+#  include_recipe 'xenforo::_deploy_git'
+#end
 
 if File.exist?(node['xenforo']['htdocs_xenforo'])
   %w(data internal_data).each do |dir|
@@ -88,12 +88,39 @@ if File.exist?(node['xenforo']['htdocs_xenforo'])
 
   unless ip_db.nil?
     cred = Chef::EncryptedDataBagItem.load('xenforo', 'db')
+
     if node['xenforo']['cdn']['external_data_url'].nil?
-      cdn_password = nil
+      cdn_keyfile = nil
     else
-      cdn_password = Chef::EncryptedDataBagItem.load('xenforo', 'cdn')\
-        [node['xenforo']['cdn']['provider']][node['xenforo']['cdn']['user']]['password']
+      cdn = Chef::EncryptedDataBagItem.load('xenforo', 'cdn')
+
+      directory "#{node['xenforo']['cdn']['credentials_directory']}" do
+        owner 'www-data'
+        group 'www-data'
+        mode 0700
+      end
+
+      template "#{node['xenforo']['cdn']['credentials_directory']}/#{node['xenforo']['cdn']['private_key']}" do
+        source 'ssh_key.erb'
+        owner 'www-data'
+        group 'www-data'
+        variables({
+          :key => cdn['akamai']['private_key']
+        })
+        mode 0600
+      end
+
+      template "#{node['xenforo']['cdn']['credentials_directory']}/#{node['xenforo']['cdn']['public_key']}" do
+        source 'ssh_key.erb'
+        owner 'www-data'
+        group 'www-data'
+        variables({
+          :key => cdn['akamai']['public_key']
+        })
+        mode 0600
+      end
     end
+
     template "#{node['xenforo']['htdocs_xenforo']}/library/config.php" do
       owner node['apache']['user']
       group node['apache']['group']
@@ -114,7 +141,8 @@ if File.exist?(node['xenforo']['htdocs_xenforo'])
                 'cdn_host' => node['xenforo']['cdn']['host'],
                 'cdn_port' => node['xenforo']['cdn']['port'],
                 'cdn_user' => node['xenforo']['cdn']['user'],
-                'cdn_password' => cdn_password,
+                'publicKey' => "#{node['xenforo']['cdn']['credentials_directory']}/#{node['xenforo']['cdn']['public_key']}",
+                'privateKey' => "#{node['xenforo']['cdn']['credentials_directory']}/#{node['xenforo']['cdn']['private_key']}",
                 'social' => social,
                 'debug' => node['xenforo']['debug'],
                 'short_name' => node['xenforo']['names'][0])
